@@ -1,0 +1,9 @@
+HDRP setup for Demo scene:
+
+Drag and drop Sky and Fog Global Volume into scene. 
+Replace Directional Light in scene with the HDRP Directional Light prefab.
+Under Lighting>Scene, drag Lighting Settings into Lighting Setting Asset slot.
+Under Lighting tab, drag the Sky and Fog Settings Profile from the Demo Scene folder into the Profile slot.
+
+Note: Included billboard grass is not supported in HDRP, so grass will not display. 
+Please replace the grass with mesh grass of your liking.

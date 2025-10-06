@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 7b3a00bafa14b4101809bb11cc1aae94
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 201103
+  packageName: Rural Australia Pack
+  packageVersion: 2.0.0
+  assetPath: Assets/Pup Up Productions/Rural Australia Pack/Shaders/Vegetation/VegetationTreeLeaf.cs
+  uploadId: 638703
