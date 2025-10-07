@@ -13,13 +13,29 @@ namespace RelaxingDrive.Core
     {
         // Singleton instance
         private static VisitManager instance;
+        private static bool isQuitting = false;
+
         public static VisitManager Instance
         {
             get
             {
+                // Don't try to create during shutdown
+                if (isQuitting)
+                    return null;
+
+                // Auto-create if missing (helpful for testing)
                 if (instance == null)
                 {
-                    Debug.LogError("VisitManager instance is null! Make sure it exists in the scene.");
+                    // Try to find existing VisitManager in scene
+                    instance = FindFirstObjectByType<VisitManager>();
+
+                    // If still null, create one
+                    if (instance == null)
+                    {
+                        GameObject managerObj = new GameObject("VisitManager (Auto-Created)");
+                        instance = managerObj.AddComponent<VisitManager>();
+                        Debug.LogWarning("VisitManager was missing - created automatically. Consider adding one to your scene manually.");
+                    }
                 }
                 return instance;
             }
@@ -40,12 +56,20 @@ namespace RelaxingDrive.Core
             // Singleton pattern implementation
             if (instance != null && instance != this)
             {
+                Debug.LogWarning($"Duplicate VisitManager found on {gameObject.name}. Destroying duplicate.");
                 Destroy(gameObject);
                 return;
             }
 
             instance = this;
             DontDestroyOnLoad(gameObject); // Persist between scenes
+
+            Debug.Log("VisitManager initialized successfully!");
+        }
+
+        private void OnApplicationQuit()
+        {
+            isQuitting = true;
         }
 
         /// <summary>
