@@ -16,22 +16,22 @@ namespace RelaxingDrive.World
         [Header("Interaction Settings")]
         [SerializeField] private string interactionPrompt = "Press E to interact";
         [SerializeField] private bool isInteractable = true;
-        
+
         [Header("Dialogue")]
         [SerializeField] private DialogueData dialogueData;
-        
+
         [Header("Debug")]
         [SerializeField] private bool showDebugGizmo = true;
-        
+
         private Collider interactionCollider;
-        
+
         private void Awake()
         {
             // Ensure collider is set to trigger
             interactionCollider = GetComponent<Collider>();
             interactionCollider.isTrigger = true;
         }
-        
+
         /// <summary>
         /// Called when player presses E near this object
         /// </summary>
@@ -42,9 +42,9 @@ namespace RelaxingDrive.World
                 Debug.LogWarning($"Cannot interact with {gameObject.name}");
                 return;
             }
-            
+
             Debug.Log($"Interacting with: {gameObject.name}");
-            
+
             // Trigger dialogue if we have dialogue data
             if (dialogueData != null && DialogueManager.Instance != null)
             {
@@ -55,7 +55,7 @@ namespace RelaxingDrive.World
                 Debug.LogWarning($"{gameObject.name} has no DialogueData assigned!");
             }
         }
-        
+
         /// <summary>
         /// Returns the interaction prompt text
         /// </summary>
@@ -63,7 +63,7 @@ namespace RelaxingDrive.World
         {
             return interactionPrompt;
         }
-        
+
         /// <summary>
         /// Check if currently interactable
         /// </summary>
@@ -71,7 +71,7 @@ namespace RelaxingDrive.World
         {
             return isInteractable;
         }
-        
+
         /// <summary>
         /// Enable/disable interaction at runtime
         /// </summary>
@@ -79,17 +79,17 @@ namespace RelaxingDrive.World
         {
             isInteractable = value;
         }
-        
+
         // Visualize interaction range in editor
         private void OnDrawGizmos()
         {
             if (!showDebugGizmo)
                 return;
-            
+
             Gizmos.color = isInteractable ? Color.green : Color.red;
             Gizmos.DrawWireSphere(transform.position, 1f);
         }
-        
+
         private void OnDrawGizmosSelected()
         {
             Gizmos.color = Color.yellow;

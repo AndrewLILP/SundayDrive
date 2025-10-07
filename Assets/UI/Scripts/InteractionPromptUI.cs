@@ -16,29 +16,29 @@ namespace RelaxingDrive.UI
         [Header("References")]
         [SerializeField] private PlayerStateManager playerStateManager;
         [SerializeField] private UIDocument uiDocument;
-        
+
         private Label promptLabel;
         private VisualElement promptContainer;
         private PlayerInteractionDetector interactionDetector;
-        
+
         private void Awake()
         {
             if (uiDocument == null)
                 uiDocument = GetComponent<UIDocument>();
         }
-        
+
         private void OnEnable()
         {
             SetupUIElements();
         }
-        
+
         private void Start()
         {
             // Get interaction detector from player character
             if (playerStateManager != null && playerStateManager.PlayerCharacter != null)
             {
                 interactionDetector = playerStateManager.PlayerCharacter.GetComponent<PlayerInteractionDetector>();
-                
+
                 if (interactionDetector == null)
                 {
                     // Add it if not present
@@ -46,27 +46,27 @@ namespace RelaxingDrive.UI
                 }
             }
         }
-        
+
         private void SetupUIElements()
         {
             var root = uiDocument.rootVisualElement;
-            
+
             // Query UI elements
             promptContainer = root.Q<VisualElement>("InteractionPrompt");
             promptLabel = root.Q<Label>("PromptText");
-            
+
             // Hide by default
             if (promptContainer != null)
             {
                 promptContainer.style.display = DisplayStyle.None;
             }
         }
-        
+
         private void Update()
         {
             UpdatePrompt();
         }
-        
+
         /// <summary>
         /// Updates the interaction prompt based on nearby interactables
         /// </summary>
@@ -78,7 +78,7 @@ namespace RelaxingDrive.UI
                 HidePrompt();
                 return;
             }
-            
+
             // Priority 1: Check for building/NPC interactables
             if (interactionDetector != null && interactionDetector.HasInteractable)
             {
@@ -86,7 +86,7 @@ namespace RelaxingDrive.UI
                 ShowPrompt(promptText);
                 return;
             }
-            
+
             // Priority 2: Check if near car
             if (playerStateManager.PlayerCharacter != null && playerStateManager.CarGameObject != null)
             {
@@ -94,18 +94,18 @@ namespace RelaxingDrive.UI
                     playerStateManager.PlayerCharacter.transform.position,
                     playerStateManager.CarGameObject.transform.position
                 );
-                
+
                 if (distanceToCar <= 3f) // Same range as OnFootState
                 {
                     ShowPrompt("Press E to enter vehicle");
                     return;
                 }
             }
-            
+
             // Nothing nearby
             HidePrompt();
         }
-        
+
         /// <summary>
         /// Shows the prompt with given text
         /// </summary>
@@ -117,7 +117,7 @@ namespace RelaxingDrive.UI
                 promptContainer.style.display = DisplayStyle.Flex;
             }
         }
-        
+
         /// <summary>
         /// Hides the prompt
         /// </summary>

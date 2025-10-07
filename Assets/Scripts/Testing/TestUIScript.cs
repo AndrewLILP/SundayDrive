@@ -45,7 +45,12 @@ public class TestUIScript : MonoBehaviour
         testLabel.style.fontSize = 30;
         testLabel.style.color = Color.green;
         testLabel.style.backgroundColor = Color.black;
-        testLabel.style.padding = new StyleLength(20);
+
+        // Padding - different syntax for Unity 6
+        testLabel.style.paddingTop = 20;
+        testLabel.style.paddingBottom = 20;
+        testLabel.style.paddingLeft = 20;
+        testLabel.style.paddingRight = 20;
 
         root.Add(testLabel);
 
