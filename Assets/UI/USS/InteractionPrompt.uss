@@ -1,0 +1,40 @@
+/* InteractionPrompt.uss - Stylesheet for Interaction Prompt */
+
+/* Main Prompt Container (centered at bottom) */
+.interaction-prompt {
+    position: absolute;
+    bottom: 150px; /* Moved up a bit to be more visible */
+    left: 50%;
+    translate: -50% 0;
+    align-items: center;
+    justify-content: center;
+    width: 400px; /* Fixed width for consistency */
+}
+
+/* Background Panel - More visible */
+.prompt-background {
+    background-color: rgba(20, 20, 30, 0.95); /* More opaque */
+    border-radius: 12px;
+    padding: 20px 30px;
+    border-width: 3px;
+    border-color: rgb(100, 200, 255); /* Bright blue border */
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5); /* Add shadow */
+}
+
+/* Prompt Text - Bigger and more visible */
+.prompt-text {
+    font-size: 24px;
+    color: rgb(255, 255, 255);
+    -unity-font-style: bold;
+    -unity-text-align: middle-center;
+    white-space: normal; /* Allow text wrapping */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8); /* Add text shadow for readability */
+}
+
+/* Pulse animation effect */
+.prompt-background {
+    transition-property: scale, border-color;
+    transition-duration: 0.3s;
+}

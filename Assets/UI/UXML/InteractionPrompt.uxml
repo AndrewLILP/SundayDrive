@@ -1,9 +1,14 @@
-<?xml version="1.0" encoding="utf-8"?>
-<ui:UXML
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:ui="UnityEngine.UIElements"
-    xmlns:uie="UnityEditor.UIElements"
-    xsi:noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd"
->
-    
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
+    <!-- Interaction Prompt Container -->
+    <ui:VisualElement name="InteractionPrompt" class="interaction-prompt">
+        
+        <!-- Background Panel -->
+        <ui:VisualElement class="prompt-background">
+            
+            <!-- Prompt Text -->
+            <ui:Label name="PromptText" text="Press E to interact" class="prompt-text" />
+            
+        </ui:VisualElement>
+        
+    </ui:VisualElement>
 </ui:UXML>
