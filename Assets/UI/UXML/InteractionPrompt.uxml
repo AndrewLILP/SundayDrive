@@ -1,14 +1,12 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
-    <!-- Interaction Prompt Container -->
+    <!-- Interaction Prompt - Shows "Press E to..." when near interactables -->
     <ui:VisualElement name="InteractionPrompt" class="interaction-prompt">
         
-        <!-- Background Panel -->
-        <ui:VisualElement class="prompt-background">
-            
-            <!-- Prompt Text -->
-            <ui:Label name="PromptText" text="Press E to interact" class="prompt-text" />
-            
-        </ui:VisualElement>
+        <!-- Icon (optional - can use Unicode symbols) -->
+        <ui:Label name="InteractionIcon" text="[E]" class="interaction-icon" />
+        
+        <!-- Prompt Text -->
+        <ui:Label name="InteractionText" text="Press E to interact" class="interaction-text" />
         
     </ui:VisualElement>
 </ui:UXML>

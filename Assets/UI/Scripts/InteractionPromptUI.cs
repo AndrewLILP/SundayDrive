@@ -1,25 +1,32 @@
 // InteractionPromptUI.cs
 using UnityEngine;
 using UnityEngine.UIElements;
-using RelaxingDrive.Player;
 using RelaxingDrive.World;
 
 namespace RelaxingDrive.UI
 {
     /// <summary>
-    /// Displays interaction prompts using UI Toolkit.
-    /// Shows "Press E to..." when near interactable objects.
+    /// Controls the interaction prompt UI using UI Toolkit.
+    /// Shows "Press E to [action]" when player is near an interactable object.
+    /// Observes PlayerInteractionDetector to know when to show/hide.
     /// </summary>
     [RequireComponent(typeof(UIDocument))]
     public class InteractionPromptUI : MonoBehaviour
     {
         [Header("References")]
-        [SerializeField] private PlayerStateManager playerStateManager;
+        [SerializeField] private PlayerInteractionDetector playerDetector;
         [SerializeField] private UIDocument uiDocument;
 
-        private Label promptLabel;
-        private VisualElement promptContainer;
-        private PlayerInteractionDetector interactionDetector;
+        [Header("Settings")]
+        [SerializeField] private string defaultPromptText = "Press E to interact";
+
+        // UI Elements
+        private VisualElement interactionPrompt;
+        private Label interactionIcon;
+        private Label interactionText;
+
+        // State
+        private IInteractable currentInteractable;
 
         private void Awake()
         {
@@ -32,101 +39,75 @@ namespace RelaxingDrive.UI
             SetupUIElements();
         }
 
-        private void Start()
-        {
-            // Get interaction detector from player character
-            if (playerStateManager != null && playerStateManager.PlayerCharacter != null)
-            {
-                interactionDetector = playerStateManager.PlayerCharacter.GetComponent<PlayerInteractionDetector>();
-
-                if (interactionDetector == null)
-                {
-                    // Add it if not present
-                    interactionDetector = playerStateManager.PlayerCharacter.AddComponent<PlayerInteractionDetector>();
-                }
-            }
-        }
-
         private void SetupUIElements()
         {
             var root = uiDocument.rootVisualElement;
 
-            // Query UI elements
-            promptContainer = root.Q<VisualElement>("InteractionPrompt");
-            promptLabel = root.Q<Label>("PromptText");
+            // Query elements
+            interactionPrompt = root.Q<VisualElement>("InteractionPrompt");
+            interactionIcon = root.Q<Label>("InteractionIcon");
+            interactionText = root.Q<Label>("InteractionText");
 
-            // Hide by default
-            if (promptContainer != null)
-            {
-                promptContainer.style.display = DisplayStyle.None;
-            }
+            // Start hidden
+            HidePrompt();
         }
 
         private void Update()
         {
-            UpdatePrompt();
-        }
+            if (playerDetector == null)
+                return;
 
-        /// <summary>
-        /// Updates the interaction prompt based on nearby interactables
-        /// </summary>
-        private void UpdatePrompt()
-        {
-            // Only show prompt when on foot
-            if (playerStateManager == null || !playerStateManager.IsOnFoot)
+            // Check if player has an interactable nearby
+            if (playerDetector.HasInteractable)
             {
+                currentInteractable = playerDetector.ClosestInteractable;
+                ShowPrompt(currentInteractable.GetInteractionPrompt());
+            }
+            else
+            {
+                currentInteractable = null;
                 HidePrompt();
-                return;
             }
-
-            // Priority 1: Check for building/NPC interactables
-            if (interactionDetector != null && interactionDetector.HasInteractable)
-            {
-                string promptText = interactionDetector.ClosestInteractable.GetInteractionPrompt();
-                ShowPrompt(promptText);
-                return;
-            }
-
-            // Priority 2: Check if near car
-            if (playerStateManager.PlayerCharacter != null && playerStateManager.CarGameObject != null)
-            {
-                float distanceToCar = Vector3.Distance(
-                    playerStateManager.PlayerCharacter.transform.position,
-                    playerStateManager.CarGameObject.transform.position
-                );
-
-                if (distanceToCar <= 3f) // Same range as OnFootState
-                {
-                    ShowPrompt("Press E to enter vehicle");
-                    return;
-                }
-            }
-
-            // Nothing nearby
-            HidePrompt();
         }
 
         /// <summary>
-        /// Shows the prompt with given text
+        /// Shows the prompt with custom text
         /// </summary>
-        private void ShowPrompt(string text)
+        private void ShowPrompt(string promptText)
         {
-            if (promptContainer != null && promptLabel != null)
+            if (interactionPrompt == null)
+                return;
+
+            // Update text
+            if (interactionText != null)
             {
-                promptLabel.text = text;
-                promptContainer.style.display = DisplayStyle.Flex;
+                interactionText.text = promptText;
+            }
+
+            // Show prompt
+            if (interactionPrompt.style.display == DisplayStyle.None)
+            {
+                interactionPrompt.style.display = DisplayStyle.Flex;
             }
         }
 
         /// <summary>
-        /// Hides the prompt
+        /// Hides the interaction prompt
         /// </summary>
         private void HidePrompt()
         {
-            if (promptContainer != null)
+            if (interactionPrompt != null)
             {
-                promptContainer.style.display = DisplayStyle.None;
+                interactionPrompt.style.display = DisplayStyle.None;
             }
+        }
+
+        /// <summary>
+        /// Public method to set the player detector reference
+        /// </summary>
+        public void SetPlayerDetector(PlayerInteractionDetector detector)
+        {
+            playerDetector = detector;
         }
     }
 }

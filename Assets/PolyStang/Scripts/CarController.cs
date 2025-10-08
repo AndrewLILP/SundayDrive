@@ -1,7 +1,7 @@
 using UnityEngine;
 using System;
 using System.Collections.Generic;
-using TMPro;
+//using TMPro;
 
 namespace PolyStang
 {
@@ -31,6 +31,10 @@ namespace PolyStang
             public int index;
         }
 
+        [Header("Speed UI")]
+        // REMOVED: public TMP_Text speedText;
+        public float UISpeedMultiplier = 4;
+
         public ControlMode control;
 
         [Header("Inputs")]
@@ -46,8 +50,8 @@ namespace PolyStang
         public float maxSteerAngle = 30.0f;
 
         [Header("Speed UI")]
-        public TMP_Text speedText;
-        public float UISpeedMultiplier = 4;
+        //public TMP_Text speedText;
+        //public float UISpeedMultiplier = 4;
 
         [Header("Speed limit")]
         public float frontMaxSpeed = 200;
@@ -103,8 +107,15 @@ namespace PolyStang
             Move();
             Steer();
             BrakeAndDeacceleration();
-            UpdateSpeedUI();
+            //UpdateSpeedUI();
         }
+        
+        
+
+        // REMOVED: UpdateSpeedUI() function entirely
+        // Speed is now accessed by HUDController directly from the Rigidbody
+
+        // ... rest of code stays the same ...
 
         public void MoveInput(float input) // used for touch controls.
         {
@@ -293,7 +304,7 @@ namespace PolyStang
         void UpdateSpeedUI() // UI: speed update.
         {
             int roundedSpeed = (int)Mathf.Round(carRb.linearVelocity.magnitude * UISpeedMultiplier);
-            speedText.text = roundedSpeed.ToString();
+            //speedText.text = roundedSpeed.ToString();
         }
     }
 }

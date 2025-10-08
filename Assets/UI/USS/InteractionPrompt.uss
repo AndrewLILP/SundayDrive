@@ -1,40 +1,49 @@
 /* InteractionPrompt.uss - Stylesheet for Interaction Prompt */
 
-/* Main Prompt Container (centered at bottom) */
+/* Main Container */
 .interaction-prompt {
     position: absolute;
-    bottom: 150px; /* Moved up a bit to be more visible */
+    bottom: 150px; /* Above dialogue, below center */
     left: 50%;
     translate: -50% 0;
+    
+    flex-direction: row;
     align-items: center;
-    justify-content: center;
-    width: 400px; /* Fixed width for consistency */
+    
+    background-color: rgba(0, 0, 0, 0.7);
+    border-radius: 10px;
+    padding: 12px 20px;
+    
+    border-width: 2px;
+    border-color: rgba(255, 255, 255, 0.4);
+    
+    /* Hidden by default */
+    display: none;
 }
 
-/* Background Panel - More visible */
-.prompt-background {
-    background-color: rgba(20, 20, 30, 0.95); /* More opaque */
-    border-radius: 12px;
-    padding: 20px 30px;
-    border-width: 3px;
-    border-color: rgb(100, 200, 255); /* Bright blue border */
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5); /* Add shadow */
-}
-
-/* Prompt Text - Bigger and more visible */
-.prompt-text {
+/* Icon/Key Display */
+.interaction-icon {
     font-size: 24px;
-    color: rgb(255, 255, 255);
+    color: rgb(255, 220, 100);
     -unity-font-style: bold;
-    -unity-text-align: middle-center;
-    white-space: normal; /* Allow text wrapping */
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8); /* Add text shadow for readability */
+    margin-right: 10px;
+    
+    /* Button-like appearance */
+    background-color: rgba(50, 50, 50, 0.8);
+    border-radius: 5px;
+    padding: 5px 10px;
+    border-width: 2px;
+    border-color: rgba(255, 220, 100, 0.6);
 }
 
-/* Pulse animation effect */
-.prompt-background {
-    transition-property: scale, border-color;
-    transition-duration: 0.3s;
+/* Prompt Text */
+.interaction-text {
+    font-size: 18px;
+    color: rgb(255, 255, 255);
+    white-space: nowrap;
+}
+
+/* Fade-in animation (optional - set in code) */
+.interaction-prompt--visible {
+    display: flex;
 }
